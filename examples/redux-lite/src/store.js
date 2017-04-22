@@ -7,8 +7,6 @@ const initialState = {
 
 let store;
 
-const ACTION_PREFIX = "$$RX";
-
 export function createStore() {
   const args = [].slice.call(arguments);
   store = reduxCreateStore.apply(
