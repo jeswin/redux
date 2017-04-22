@@ -24,7 +24,7 @@ export function createStore() {
 }
 
 function reducer(state, action) {
-  return action && action.type.startsWith(ACTION_PREFIX) ? action.state : state;
+  return action && action.__replaceState ? action.state : state;
 }
 
 export function getState(selector) {
@@ -35,7 +35,8 @@ export function updateState(property, update, actionType) {
   const state = store.getState();
   const newState = { ...state, [property]: update(state[property]) };
   store.dispatch({
-    type: actionType ? `${ACTION_PREFIX}.${actionType}` : ACTION_PREFIX,
+    type: actionType || "REPLACE_STATE",
+    __replaceState: true,
     state: newState
   });
 }
