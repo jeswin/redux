@@ -36,7 +36,7 @@ class App extends Component {
 
   render() {
     const { selectedReddit, posts, isFetching, lastUpdated } = this.props;
-    const isEmpty = posts.length === 0;
+    const isEmpty = !posts || posts.length === 0;
     return (
       <div>
         <Picker

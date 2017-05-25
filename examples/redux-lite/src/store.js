@@ -38,3 +38,11 @@ export function updateState(property, update, actionType) {
     state: newState
   });
 }
+
+export function replaceState(newState) {
+  store.dispatch({
+    type: "REPLACE_STATE",
+    __replaceState: true,
+    state: newState
+  });
+}
