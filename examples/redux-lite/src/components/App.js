@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
 import { selectReddit, fetchPostsIfNeeded, invalidateReddit } from "../actions";
 import Picker from "./Picker";
 import Posts from "./Posts";
 import { getState } from "../store";
+import connect from "../connect";
 
 class App extends Component {
   static propTypes = {
@@ -35,7 +35,17 @@ class App extends Component {
   };
 
   render() {
-    const { selectedReddit, posts, isFetching, lastUpdated } = this.props;
+    const { selectedReddit, postsByReddit } = this.props;
+
+    const {
+      isFetching,
+      lastUpdated,
+      items: posts
+    } = postsByReddit[selectedReddit] || {
+      isFetching: true,
+      items: []
+    };
+
     const isEmpty = !posts || posts.length === 0;
     return (
       <div>
@@ -65,24 +75,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = () => {
-  const { selectedReddit, postsByReddit } = getState();
-
-  const {
-    isFetching,
-    lastUpdated,
-    items: posts
-  } = postsByReddit[selectedReddit] || {
-    isFetching: true,
-    items: []
-  };
-
-  return {
-    selectedReddit,
-    posts,
-    isFetching,
-    lastUpdated
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default connect(App);
